@@ -41,6 +41,25 @@ def add_expense():
             "Please provide both name and amount for the expense."
         )
 
+
+# Function to remove a selected expense
+def remove_expense():
+    selected_expense = expenses_list.curselection()
+
+    if not selected_expense:
+        messagebox.showerror(
+            "No Selection",
+            "Please select an expense to remove."
+        )
+        return
+
+    expense_index = selected_expense[0]
+
+    expenses_list.delete(expense_index)
+    expenses_names.pop(expense_index)
+    expenses_amounts.pop(expense_index)
+
+
 # Function to calculate and display the results
 def calculate_results():
     try:
@@ -113,7 +132,7 @@ expense_name_entry = tk.Entry(root)
 expense_name_entry.grid(row=1, column=1, padx=10, pady=5)
 
 # Create input for expense amount
-tk.Label(root, text="Expense Amount:").grid(
+tk.Label(root, text="Expense Amount (Yearly):").grid(
     row=2, column=0, padx=10, pady=5, sticky="w"
 )
 expense_amount_entry = tk.Entry(root)
@@ -124,7 +143,7 @@ add_expense_button = tk.Button(
     root, text="Add Expense", command=add_expense
 )
 add_expense_button.grid(
-    row=3, column=0, columnspan=2, pady=10
+    row=3, column=0, padx=10, pady=10, sticky="ew"
 )
 
 # Listbox to display all expenses
@@ -133,12 +152,23 @@ expenses_list.grid(
     row=4, column=0, columnspan=2, padx=10, pady=5
 )
 
+
+# Button to remove a selected expense
+remove_expense_button = tk.Button(
+    root, text="Remove Expense", command=remove_expense
+)
+remove_expense_button.grid(
+    row=3, column=1, padx=10, pady=10, sticky="ew"
+)
+
 # Input for savings goal
 tk.Label(root, text="Savings Goal:").grid(
     row=5, column=0, padx=10, pady=5, sticky="w"
 )
 savings_goal_entry = tk.Entry(root)
-savings_goal_entry.grid(row=5, column=1, padx=10, pady=5)
+savings_goal_entry.grid(
+    row=5, column=1, padx=10, pady=5
+)
 
 # Label to display results
 results_label = tk.Label(root, text="", justify="left")
